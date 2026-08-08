@@ -12,7 +12,7 @@ class TryComponent4 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-            SejenakAudioList(
+            SejenakUserList(
                 action: () async {},
                 title: 'Sejenak Audio List',
                 image:

@@ -25,7 +25,7 @@ class SejenakJournalList extends StatefulWidget {
   });
 
   @override
-  _SejenakJournalListState createState() => _SejenakJournalListState();
+  State<SejenakJournalList> createState() => _SejenakJournalListState();
 }
 
 class _SejenakJournalListState extends State<SejenakJournalList> {

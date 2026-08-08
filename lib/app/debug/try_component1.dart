@@ -12,6 +12,8 @@ class TryComponent1 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SejenakPostContainer(
+              postId: 1,
+              likeAction: (isLiked, newLikes) {},
               commentAction: () {},
               title: "hallo",
               postImage:

@@ -12,6 +12,7 @@ class TryComponent2 extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SejenakCommentContainer(
+                id: 1,
                 postImage:
                     "https://images.unsplash.com/photo-1533050487297-09b450131914?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
                 text:
@@ -25,6 +26,7 @@ class TryComponent2 extends StatelessWidget {
                 child: Column(
                   children: [
                     SejenakCommentContainer(
+                      id: 2,
                       postImage:
                           "https://images.unsplash.com/photo-1533050487297-09b450131914?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
                       text:
@@ -37,6 +39,7 @@ class TryComponent2 extends StatelessWidget {
                       isMe: false,
                     ),
                     SejenakCommentContainer(
+                      id: 3,
                       postImage:
                           "https://images.unsplash.com/photo-1533050487297-09b450131914?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
                       text:

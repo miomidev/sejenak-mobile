@@ -18,7 +18,6 @@ class SejenakCreatePost {
   final String? initialContent;
   final String? initialImage;
   final bool? initialIsAnonymous;
-  final ImagePicker _picker = ImagePicker();
   File? image;
   bool isAnonymous = false;
   final TextEditingController commentInput = TextEditingController();
@@ -344,7 +343,7 @@ SejenakCreatePost({
                                     text: "",
                                     action: () async {
                                       final pickedFile =
-                                          await _picker.pickImage(
+                                          await ImagePicker().pickImage(
                                               source: ImageSource.gallery);
                                       if (pickedFile != null) {
                                         setState(() {

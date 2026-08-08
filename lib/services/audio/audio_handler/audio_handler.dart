@@ -4,7 +4,6 @@ import 'package:just_audio/just_audio.dart';
 
 class SejenakAudioHandler extends BaseAudioHandler {
   final _player = AudioPlayer();
-  final _playlist = ConcatenatingAudioSource(children: []);
 
   SejenakAudioHandler() {
     _notifyAudioHandlerAboutPlaybackEvents();
@@ -87,7 +86,7 @@ AudioProcessingState _mapProcessingState(ProcessingState state) {
       final newQueue = queue.value;
       if (index == null || newQueue.isEmpty) return;
       if (_player.shuffleModeEnabled) {
-        index = _player.shuffleIndices![index];
+        index = _player.shuffleIndices[index];
       }
       final oldMediaItem = newQueue[index];
       final newMediaItem = oldMediaItem.copyWith(duration: duration);
@@ -146,6 +145,7 @@ AudioProcessingState _mapProcessingState(ProcessingState state) {
   }
 
   // ✅ TAMBAHKAN METHOD INI - untuk handle updateMediaItem
+  @override
   Future<void> updateMediaItem(MediaItem mediaItem) async {
     this.mediaItem.add(mediaItem);
   }
@@ -183,7 +183,7 @@ AudioProcessingState _mapProcessingState(ProcessingState state) {
       await playMediaItem(mediaItem);
     } catch (e) {
       print('❌ Error playing audio: $e');
-      throw e;
+      rethrow;
     }
   }
 
@@ -202,7 +202,6 @@ AudioProcessingState _mapProcessingState(ProcessingState state) {
     return super.onTaskRemoved();
   }
 
-  @override
   Future<void> onClose() async {
     return _player.dispose();
   }

@@ -8,14 +8,14 @@ class SejenakCalendar extends StatefulWidget {
   final Function(DateTime)? onDateSelected;
   final Color color;
   const SejenakCalendar({
-    Key? key,
+    super.key,
     this.color = SejenakColor.primary,
     this.initialDate,
     this.onDateSelected,
-  }) : super(key: key);
+  });
 
   @override
-  _SejenakCalendarState createState() => _SejenakCalendarState();
+  State<SejenakCalendar> createState() => _SejenakCalendarState();
 }
 
 class _SejenakCalendarState extends State<SejenakCalendar> {
@@ -28,27 +28,6 @@ class _SejenakCalendarState extends State<SejenakCalendar> {
     super.initState();
     _focusedDay = widget.initialDate ?? DateTime.now();
     _selectedDay = widget.initialDate;
-  }
-
-  bool click = false;
-  double opacity = 1.0;
-  double offsetY = 0.0;
-
-  Future<void> _onclick() async {
-    setState(() {
-      click = true;
-      opacity = 0.6;
-      offsetY = 4.0;
-    });
-
-    await Future.delayed(const Duration(milliseconds: 200));
-
-    setState(() {
-      click = false;
-      opacity = 1.0;
-      offsetY = 0.0;
-    });
-    // await widget.action();
   }
 
   @override
@@ -64,16 +43,14 @@ class _SejenakCalendarState extends State<SejenakCalendar> {
           ),
           color: widget.color,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: !click
-              ? [
-                  const BoxShadow(
-                    color: SejenakColor.black,
-                    spreadRadius: 0.2,
-                    blurRadius: 0,
-                    offset: Offset(0.1, 4),
-                  ),
-                ]
-              : [],
+          boxShadow: const [
+            BoxShadow(
+              color: SejenakColor.black,
+              spreadRadius: 0.2,
+              blurRadius: 0,
+              offset: Offset(0.1, 4),
+            ),
+          ],
         ),
         child: Column(
           children: [
@@ -88,8 +65,7 @@ class _SejenakCalendarState extends State<SejenakCalendar> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                        ))
-                    .toList(),
+                        )),
               ],
             ),
             SizedBox(
@@ -103,16 +79,14 @@ class _SejenakCalendarState extends State<SejenakCalendar> {
                 ),
                 color: SejenakColor.white,
                 borderRadius: BorderRadius.circular(10),
-                boxShadow: !click
-                    ? [
-                        const BoxShadow(
-                          color: SejenakColor.black,
-                          spreadRadius: 0.2,
-                          blurRadius: 0,
-                          offset: Offset(-2, -4),
-                        ),
-                      ]
-                    : [],
+                boxShadow: const [
+                  BoxShadow(
+                    color: SejenakColor.black,
+                    spreadRadius: 0.2,
+                    blurRadius: 0,
+                    offset: Offset(-2, -4),
+                  ),
+                ],
               ),
               child: TableCalendar(
                 firstDay: DateTime.utc(2020, 1, 1),

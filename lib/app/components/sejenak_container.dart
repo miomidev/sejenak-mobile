@@ -4,6 +4,7 @@ import 'package:selena/root/sejenak_color.dart';
 class SejenakContainer extends StatelessWidget {
   final Widget? child;
   const SejenakContainer({super.key, this.child});
+  @override
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),

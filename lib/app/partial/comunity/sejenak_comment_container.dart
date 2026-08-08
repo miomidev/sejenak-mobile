@@ -13,10 +13,10 @@ class SejenakCommentContainer extends StatelessWidget {
   final bool isLike;
   final bool isMe;
   final int comment;
-  late bool isReply = false;
+  final bool isReply;
   final Function(bool isReply)? onReplyChanged;
 
-  SejenakCommentContainer({
+  const SejenakCommentContainer({
     super.key,
     this.child,
     required this.id,
@@ -28,6 +28,7 @@ class SejenakCommentContainer extends StatelessWidget {
     this.comment = 0,
     this.isLike = false,
     this.isMe = false,
+    this.isReply = false,
     this.onReplyChanged,
   });
 
@@ -98,10 +99,7 @@ class SejenakCommentContainer extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        isReply = true;
-                        if (onReplyChanged != null) {
-                          onReplyChanged!(isReply);
-                        }
+                        onReplyChanged?.call(true);
                       },
                       child: SejenakText(
                         text: "Reply",

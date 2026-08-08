@@ -3,7 +3,6 @@ import 'package:audio_service/audio_service.dart';
 import 'package:selena/app/components/sejenak_container.dart';
 import 'package:selena/app/components/sejenak_text.dart';
 import 'package:selena/app/partial/main/sejenak_circular.dart';
-import 'package:selena/app/partial/main/sejenak_error.dart';
 import 'package:selena/app/partial/main/sejenak_header_page.dart';
 import 'package:selena/app/partial/main/sejenak_sidebar.dart';
 import 'package:selena/app/partial/sejenak_navbar.dart';
@@ -44,8 +43,7 @@ class _MeditationState extends State<Meditation> {
       return [service, meditation];
     } catch (e) {
       print('❌ Error initializing: $e');
-      return [service, null];
-
+      return [];
     }
   }
 
@@ -90,42 +88,6 @@ class _MeditationState extends State<Meditation> {
           SizedBox(height: 16),
           Text('Menyiapkan meditasi...'),
         ],
-      ),
-    );
-  }
-
-  Widget _buildErrorState(String error) {
-    return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.error_outline, size: 64, color: Colors.red),
-              SizedBox(height: 16),
-              Text(
-                'Terjadi Kesalahan',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              SizedBox(height: 8),
-              Text(
-                error,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey),
-              ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  setState(() {
-                    _initializationFuture = _initializeData();
-                  });
-                },
-                child: Text('Coba Lagi'),
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }

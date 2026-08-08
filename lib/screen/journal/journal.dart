@@ -304,7 +304,6 @@ class _JournalState extends State<Journal> {
               final int? journalId = journal.entriesId;
               final String title = journal.title ?? 'Tanpa Judul';
               final String content = journal.content ?? 'Tanpa Konten';
-              final String? createdAt = journal.createdAt;
 
               return Padding(
                 key: ValueKey('journal_$journalId'),
@@ -505,29 +504,5 @@ class _JournalState extends State<Journal> {
         ),
       ],
     );
-  }
-
-  String _getMoodFromJournal(JournalModels journal) {
-    // Logic untuk menentukan mood dari journal dengan null safety
-    final String? content = journal.content;
-    if (content == null) return '😐';
-
-    final String contentLower = content.toLowerCase();
-
-    if (contentLower.contains('senang') ||
-        contentLower.contains('bahagia') ||
-        contentLower.contains('gembira')) {
-      return '😊';
-    } else if (contentLower.contains('sedih') ||
-        contentLower.contains('kecewa') ||
-        contentLower.contains('pilu')) {
-      return '😔';
-    } else if (contentLower.contains('marah') ||
-        contentLower.contains('kesal') ||
-        contentLower.contains('jengkel')) {
-      return '😠';
-    } else {
-      return '😐';
-    }
   }
 }

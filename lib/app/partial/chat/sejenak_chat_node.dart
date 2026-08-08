@@ -6,7 +6,7 @@ class SejenakChatNode extends StatelessWidget {
   final String message;
   final bool isMe; // True jika pesan dari pengguna sendiri
 
-  SejenakChatNode({required this.message, required this.isMe});
+  const SejenakChatNode({super.key, required this.message, required this.isMe});
 
   @override
   Widget build(BuildContext context) {

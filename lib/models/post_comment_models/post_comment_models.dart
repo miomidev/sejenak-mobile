@@ -1,6 +1,5 @@
 import 'package:selena/models/post_likes/post_likes.dart';
 import 'package:selena/models/user_models/user.dart';
-import 'package:selena/models/user_models/user_models.dart';
 
 class PostCommentModels {
   final int? id;

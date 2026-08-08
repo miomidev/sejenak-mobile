@@ -30,26 +30,28 @@ class ChatBotScreen {
   }
 
   /// Fungsi kirim pesan ke chatbot
-  Future<void> _sendMessage(BuildContext context) async {
+  Future<void> _sendMessage(StateSetter setState) async {
     final text = commentInput.text.trim();
     if (text.isEmpty) return;
 
     commentInput.clear();
-    _messages.add({'text': text, 'isMe': true});
+    setState(() {
+      _messages.add({'text': text, 'isMe': true});
+    });
     _scrollToBottom();
-
-    // Update tampilan
-    (context as Element).markNeedsBuild();
 
     try {
       final botReply = await _chatService.sendMessage(text);
-      _messages.add({'text': botReply, 'isMe': false});
+      setState(() {
+        _messages.add({'text': botReply, 'isMe': false});
+      });
     } catch (e) {
-      _messages.add({'text': '⚠️ Gagal memproses pesan: $e', 'isMe': false});
+      setState(() {
+        _messages.add({'text': '⚠️ Gagal memproses pesan: $e', 'isMe': false});
+      });
     }
 
     _scrollToBottom();
-    (context as Element).markNeedsBuild();
   }
 
   /// Menampilkan modal chat
@@ -151,8 +153,7 @@ class ChatBotScreen {
                 text: "",
                 icon: "assets/svg/send.svg",
                 action: () async {
-                  await _sendMessage(context);
-                  setState(() {}); // refresh tampilan setelah pesan dikirim
+                  await _sendMessage(setState);
                 },
               ),
             ],

@@ -1,4 +1,4 @@
-import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 
 class User {
   final int? id;
@@ -38,34 +38,26 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json['id'] is int
-            ? json['id'] as int
-            : int.tryParse(json['id'].toString()),
-        googleId: json['google_id']?.toString(),
-        googleToken: json['google_token']?.toString(),
-        googleRefreshToken: json['google_refresh_token']?.toString(),
-        username: json['username']?.toString(),
-        email: json['email']?.toString(),
-        avatar: json['avatar']?.toString(),
-        emailVerifiedAt: json['email_verified_at'] == null
-            ? null
-            : DateTime.tryParse(json['email_verified_at'].toString()),
-        premium: json['premium'] is int
-            ? json['premium'] as int
-            : int.tryParse(json['premium'].toString()),
-        profil: json['profil']?.toString(),
-        deskripsiProfil: json['deskripsiProfil']?.toString(),
-        name: json['name']?.toString(),
-        isAhli: json['isAhli'] is int
-            ? json['isAhli'] as int
-            : int.tryParse(json['isAhli'].toString()),
-        role: json['role']?.toString(),
+        id: json['id'] as int?,
+        googleId: json['google_id'] as dynamic,
+        googleToken: json['google_token'] as dynamic,
+        googleRefreshToken: json['google_refresh_token'] as dynamic,
+        avatar: json['avatar'] as String?,
+        username: json['username'] as String?,
+        email: json['email'] as String?,
+        emailVerifiedAt: json['email_verified_at'] as dynamic,
+        premium: json['premium'] as int?,
+        profil: json['profil'] as dynamic,
+        deskripsiProfil: json['deskripsi_profil'] as dynamic,
+        name: json['name'] as String?,
+        isAhli: json['is_ahli'] as int?,
+        role: json['role'] as String?,
         createdAt: json['created_at'] == null
             ? null
-            : DateTime.tryParse(json['created_at'].toString()),
+            : DateTime.parse(json['created_at'] as String),
         updatedAt: json['updated_at'] == null
             ? null
-            : DateTime.tryParse(json['updated_at'].toString()),
+            : DateTime.parse(json['updated_at'] as String),
       );
 
   Map<String, dynamic> toJson() => {
@@ -73,19 +65,57 @@ class User {
         'google_id': googleId,
         'google_token': googleToken,
         'google_refresh_token': googleRefreshToken,
+        'avatar': avatar,
         'username': username,
         'email': email,
-        'avatar': avatar,
         'email_verified_at': emailVerifiedAt,
         'premium': premium,
         'profil': profil,
-        'deskripsiProfil': deskripsiProfil,
+        'deskripsi_profil': deskripsiProfil,
         'name': name,
-        'isAhli': isAhli,
+        'is_ahli': isAhli,
         'role': role,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
       };
+
+  User copyWith({
+    int? id,
+    dynamic googleId,
+    dynamic googleToken,
+    dynamic googleRefreshToken,
+    String? avatar,
+    String? username,
+    String? email,
+    dynamic emailVerifiedAt,
+    int? premium,
+    dynamic profil,
+    dynamic deskripsiProfil,
+    String? name,
+    int? isAhli,
+    String? role,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) {
+    return User(
+      id: id ?? this.id,
+      googleId: googleId ?? this.googleId,
+      googleToken: googleToken ?? this.googleToken,
+      googleRefreshToken: googleRefreshToken ?? this.googleRefreshToken,
+      avatar: avatar ?? this.avatar,
+      username: username ?? this.username,
+      email: email ?? this.email,
+      emailVerifiedAt: emailVerifiedAt ?? this.emailVerifiedAt,
+      premium: premium ?? this.premium,
+      profil: profil ?? this.profil,
+      deskripsiProfil: deskripsiProfil ?? this.deskripsiProfil,
+      name: name ?? this.name,
+      isAhli: isAhli ?? this.isAhli,
+      role: role ?? this.role,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
 
   static List<Map<String, dynamic>> toJsonList(List<User> users) {
     return users.map((user) => user.toJson()).toList();
@@ -99,30 +129,13 @@ class User {
 
   @override
   String toString() {
-    return '''
-User(
-  id: $id,
-  username: $username,
-  name: $name,
-  email: $email,
-  role: $role,
-  isAhli: $isAhli,
-  premium: $premium,
-  profil: $profil,
-  deskripsiProfil: $deskripsiProfil,
-  avatar: $avatar,
-  googleId: $googleId,
-  createdAt: $createdAt,
-  updatedAt: $updatedAt
-)
-''';
+    return 'User(id: $id, googleId: $googleId, googleToken: $googleToken, googleRefreshToken: $googleRefreshToken, avatar: $avatar, username: $username, email: $email, emailVerifiedAt: $emailVerifiedAt, premium: $premium, profil: $profil, deskripsiProfil: $deskripsiProfil, name: $name, isAhli: $isAhli, role: $role, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     if (other is! User) return false;
-    final mapEquals = const DeepCollectionEquality().equals;
     return mapEquals(other.toJson(), toJson());
   }
 

@@ -217,7 +217,7 @@ class GoogleAuthService implements SejenakAuth {
           await _firebaseAuth.signInWithCredential(credential);
       final String? firebaseIdToken = await userCredential.user?.getIdToken();
       if (firebaseIdToken != null) {
-        print("ID Token: ${firebaseIdToken}");
+        print("ID Token: $firebaseIdToken");
       } else {
         print("ID Token tidak ditemukan.");
       }

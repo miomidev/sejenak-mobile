@@ -53,7 +53,6 @@ class SensorService {
   StreamSubscription<ScreenStateEvent>? _screenSub;
   
   int _currentSteps = 0;
-  int _currentActiveMinutes = 0;
   double _currentScreenOnHours = 0;
   int _currentLateNightMinutes = 0;
   
@@ -216,7 +215,6 @@ class SensorService {
     _currentScreenOnHours = 0;
     _currentLateNightMinutes = 0;
     _currentSteps = 0;
-    _currentActiveMinutes = 0;
   }
 
   void stopListening() {

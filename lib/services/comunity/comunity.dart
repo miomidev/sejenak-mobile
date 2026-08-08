@@ -224,7 +224,7 @@ class ComunityServices implements IPostRepository {
       if (response.data['posts'] is List) {
         _cachedPosts = PostModels.fromJsonList(response.data['posts']);
         _lastFetchTime = DateTime.now(); // update waktu ambil terakhir
-        print("✅ Data post disimpan ke cache ${_cachedPosts}");
+        print("✅ Data post disimpan ke cache $_cachedPosts");
         return _cachedPosts!;
       } else {
         throw Exception("Unexpected response format");

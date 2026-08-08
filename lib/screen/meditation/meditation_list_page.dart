@@ -1,7 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:selena/app/components/sejenak_container.dart';
 import 'package:selena/app/components/sejenak_text.dart';
 import 'package:selena/app/partial/main/sejenak_header_page.dart';
 import 'package:selena/app/partial/main/sejenak_sidebar.dart';
@@ -273,7 +272,7 @@ class _MeditationListPageState extends State<MeditationListPage> {
     stream: service.mediaItemStream,
     builder: (context, mediaSnapshot) {
       final currentMediaItem = mediaSnapshot.data;
-      final isCurrentAudio = currentMediaItem?.id?.contains(audio.filePath) ?? false;
+      final isCurrentAudio = currentMediaItem?.id.contains(audio.filePath) ?? false;
 
       return StreamBuilder<PlaybackState>(
         stream: service.playbackState,
@@ -461,13 +460,6 @@ class _MeditationListPageState extends State<MeditationListPage> {
 
   
   
-  String _formatDuration(int seconds) {
-    final duration = Duration(seconds: seconds);
-    final minutes = duration.inMinutes;
-    final remainingSeconds = duration.inSeconds % 60;
-    return '${minutes.toString().padLeft(2, '0')}:${remainingSeconds.toString().padLeft(2, '0')}';
-  }
-
   @override
   void dispose() {
     service.dispose();

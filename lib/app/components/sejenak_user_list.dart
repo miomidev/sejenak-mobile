@@ -27,7 +27,7 @@ class SejenakUserList extends StatefulWidget {
   });
 
   @override
-  _SejenakUserListState createState() => _SejenakUserListState();
+  State<SejenakUserList> createState() => _SejenakUserListState();
 }
 
 class _SejenakUserListState extends State<SejenakUserList> {
@@ -118,7 +118,7 @@ class _SejenakUserListState extends State<SejenakUserList> {
                           ),
                           SejenakText(
                             text: widget.text.substring(
-                                0, min(25, (widget.text ?? '').length)),
+                                0, min(25, widget.text.length)),
                             type: SejenakTextType.regular,
                             maxLines: 1,
                             overflow: TextOverflow.fade,

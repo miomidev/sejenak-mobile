@@ -8,7 +8,7 @@ import 'package:selena/root/sejenak_color.dart';
 class SejenakMainChat {
   final int id;
   final TextEditingController commentInput = TextEditingController();
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   SejenakMainChat({required this.id}) {
     _scrollToBottom();

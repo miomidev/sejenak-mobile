@@ -136,6 +136,15 @@ class Counseling extends StatelessWidget {
         Navigator.pushNamed(context, '/chat-konselor');
       },
     },
+    {
+      'icon': Icons.emergency_rounded,
+      'title': 'Bantuan Darurat',
+      'subtitle': 'Layanan krisis dan nomor darurat',
+      'color': Colors.red,
+      'onTap': () {
+        _showEmergencyDialog(context);
+      },
+    },
   ];
 
   return Padding(

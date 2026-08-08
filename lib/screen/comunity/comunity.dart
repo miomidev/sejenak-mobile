@@ -67,14 +67,13 @@ print('post');
       final fetched = await comunity.getAllPosts();
 
       // 3️⃣ Cek apakah data berbeda dengan cache
-      final cachedPosts = posts;
-      // final isDifferent = !_isSamePosts(cachedPosts, fetched);
+      final isDifferent = !_isSamePosts(posts, fetched);
 
       // 4️⃣ Update UI & simpan cache baru
-      // if (isDifferent || forceRefresh) {
+      if (isDifferent || forceRefresh) {
         setState(() => posts = fetched);
         await AppPreferences.saveModelList('cached_posts', fetched);
-      // }
+      }
     } catch (e) {
       // 5️⃣ Jika error & cache kosong, tampilkan error
       if (posts.isEmpty) {

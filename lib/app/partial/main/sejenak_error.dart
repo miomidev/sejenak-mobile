@@ -25,7 +25,7 @@ class SejenakError extends StatelessWidget {
             type: SejenakTextType.h5,
           ),
           SejenakText(
-            text: this.message ?? '',
+            text: message ?? '',
             type: SejenakTextType.regular,
           ),
         ],

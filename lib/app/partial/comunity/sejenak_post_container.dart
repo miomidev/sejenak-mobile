@@ -3,8 +3,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:selena/app/components/sejenak_text.dart';
 import 'package:selena/app/partial/comunity/sejenak_create_post.dart';
 import 'package:selena/root/sejenak_color.dart';
-import 'package:selena/screen/comunity/comunity.dart';
-import 'package:selena/services/api.dart';
 import 'package:selena/services/comunity/comunity.dart';
 import 'package:selena/session/user_session.dart';
 
@@ -80,7 +78,7 @@ class _SejenakPostContainerState extends State<SejenakPostContainer> {
   void _editPost() {
     SejenakCreatePost(
       id: widget.postId,
-      initialTitle: widget.title ?? ' ',
+      initialTitle: widget.title,
       initialContent: widget.text,
       initialImage: widget.postImage,
       initialIsAnonymous: widget.isAnonymous,

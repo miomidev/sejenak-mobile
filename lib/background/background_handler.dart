@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:math';
 import 'package:workmanager/workmanager.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:selena/services/api.dart';
 import 'package:selena/services/sensor/background_safe_sensor_service.dart';
 
@@ -28,7 +28,7 @@ void callbackDispatcher() {
         await _handleIOSBackgroundFetch(sensorBox);
         break;
       default:
-        print('Background task unknown: $task');
+        print('Unknown background task: $task');
         break;
     }
     
@@ -41,7 +41,6 @@ Future<void> _handleSensorSync(Box sensorBox) async {
     final sensorService = BackgroundSafeSensorService();
     final sensorData = await sensorService.collectBackgroundSafeData();
     
-    final pendingList = _getPendingData(sensorBox);
     final screenData = _getScreenDataFromCache(sensorBox);
     
     final fullData = {
@@ -55,6 +54,7 @@ Future<void> _handleSensorSync(Box sensorBox) async {
       'calendar_events_count': 0,
     };
     
+    final pendingList = _getPendingData(sensorBox);
     pendingList.add(fullData);
     await sensorBox.put('pending_sensor_data', jsonEncode(pendingList));
     
@@ -62,18 +62,14 @@ Future<void> _handleSensorSync(Box sensorBox) async {
     
     await sensorBox.put('last_background_sync', DateTime.now().toIso8601String());
     
-    print('Background sensor sync completed: ${sensorData.date}');
+    print('Background sensor sync completed');
   } catch (e) {
     print('Background sensor sync error: $e');
   }
 }
 
 Future<void> _handleJournalSync() async {
-  try {
-    print('Background journal sync triggered');
-  } catch (e) {
-    print('Background journal sync error: $e');
-  }
+  print('Journal sync triggered');
 }
 
 Future<void> _handleIOSBackgroundFetch(Box sensorBox) async {
@@ -101,6 +97,16 @@ Map<String, dynamic> _getScreenDataFromCache(Box sensorBox) {
 Future<void> _syncPendingData(Box sensorBox) async {
   final pendingList = _getPendingData(sensorBox);
   if (pendingList.isEmpty) return;
+
+  final prefs = await SharedPreferences.getInstance();
+  final jsonString = prefs.getString('user_data');
+  String? token;
+  if (jsonString != null) {
+    try {
+      final jsonData = jsonDecode(jsonString);
+      token = jsonData['token'];
+    } catch (_) {}
+  }
   
   final dio = Dio(BaseOptions(
     baseUrl: API.endpoint,
@@ -118,6 +124,7 @@ Future<void> _syncPendingData(Box sensorBox) async {
         options: Options(
           headers: {
             'Content-Type': 'application/json',
+            if (token != null) 'Authorization': 'Bearer $token',
           },
         ),
       );

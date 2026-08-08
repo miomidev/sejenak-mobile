@@ -1,12 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:image_picker/image_picker.dart';
 import 'package:selena/app/components/sejenak_primary_button.dart';
 import 'package:selena/app/components/sejenak_text.dart';
 import 'package:selena/app/partial/main/sejenak_circular.dart';
 import 'package:selena/models/journal_models/journal_models.dart';
-import 'package:selena/models/post_models/post_models.dart';
 import 'package:selena/root/sejenak_color.dart';
 import 'package:selena/services/comunity/comunity.dart';
 import 'package:selena/services/journal/journal.dart';
@@ -17,7 +15,6 @@ class SejenakJournal {
   final String? initialTitle;
   final String? initialContent;
   final VoidCallback? onJournalSaved;
-  final ImagePicker _picker = ImagePicker();
   File? image;
   bool isAnonymous = false;
   final TextEditingController titleController = TextEditingController();
