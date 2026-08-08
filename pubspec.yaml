@@ -1,0 +1,114 @@
+name: selena
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+  dio: ^5.8.0+1
+  intl: ^0.20.2
+  shared_preferences: ^2.5.3
+  flutter_svg: ^2.0.9
+  url_launcher: ^6.2.1
+  path_drawing: ^1.0.1
+  flutter_quill: ^11.2.0
+  flutter_html: ^3.0.0
+  table_calendar: ^3.1.3
+  google_sign_in: ^6.2.1
+  firebase_auth: ^6.1.0
+  firebase_core: ^4.1.1
+  flutter_launcher_icons: ^0.14.3
+  image_picker: ^1.1.2
+  firebase_crashlytics: ^5.0.2
+  flutter_native_splash: ^2.4.5
+  audioplayers: ^6.5.1
+  just_audio: ^0.10.5
+  audio_service: ^0.18.18
+  audio_session: ^0.2.2
+  connectivity_plus: ^7.0.0
+  # Sensor packages
+  health: ^12.0.0
+  pedometer: ^4.0.1
+  screen_state: ^3.0.1
+  activity_recognition_flutter: ^6.0.0
+  # Local storage
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  # Background sync
+  workmanager: ^0.10.7
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+ 
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icon/icon.svg
+    - assets/svg/like.svg
+    - assets/svg/like_comment.svg
+    - assets/svg/logo_mini.svg
+    - assets/svg/humberger_menu.svg
+    - assets/svg/post_image_frame.svg
+    - assets/svg/frame_post.svg
+    - assets/svg/frame_loading.svg
+    - assets/svg/journal_icon.svg
+    - assets/svg/chat_icon.svg
+    - assets/svg/meditation_icon.svg
+    - assets/svg/send.svg
+    - assets/svg/profil_default.svg
+    - assets/svg/post_icon.svg
+    - assets/svg/stample.svg
+    - assets/svg/play.svg
+    - assets/svg/pen.svg
+    - assets/svg/icon.svg
+    - assets/svg/google.svg
+    - assets/svg/sejenak.svg
+    - assets/svg/notification.svg
+    - assets/svg/settings.svg
+    - assets/svg/comment.svg
+    - assets/svg/mail.svg
+    - assets/svg/camera.svg
+    - assets/icon/icon.png
+    - assets/icon/icon_streak.png
+    - assets/icon/icon_sad.png
+    - assets/icon/profile.png
+    - assets/splash/splash.png
+    - assets/svg/dashboard.svg
+    - assets/svg/article.svg
+    - assets/svg/logout.svg
+    - assets/svg/challenge.svg
+    
+  fonts:
+    - family: Lexend
+      fonts:
+        - asset: assets/fonts/Lexend/Lexend-Regular.ttf
+        - asset: assets/fonts/Lexend/Lexend-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Lexend/Lexend-Light.ttf
+          weight: 300
+    - family: Exo2
+      fonts:
+        - asset: assets/fonts/Exo_2/Exo2-Regular.ttf
+        - asset: assets/fonts/Exo_2/Exo2-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Exo_2/Exo2-Light.ttf
+          weight: 300
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/icon/icon.png"
+  adaptive_icon_background: "#ffffff"
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/splash/splash.png
+  android: true
+  ios: true
+  fullscreen: true
