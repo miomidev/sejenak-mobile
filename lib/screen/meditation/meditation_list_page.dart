@@ -387,12 +387,30 @@ class _MeditationListPageState extends State<MeditationListPage> {
                                 fontWeight: FontWeight.bold,
                               ),
                               const SizedBox(height: 4),
-                              if (audio.category.isNotEmpty)
                                 SejenakText(
                                   text: "Sesi ${audio.category}",
                                   type: SejenakTextType.small,
                                   color: SejenakColor.stroke,
                                 ),
+                              if (audio.isPremium) ...[
+                                const SizedBox(height: 4),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.orange.withOpacity(0.2),
+                                    borderRadius: BorderRadius.circular(4),
+                                    border: Border.all(color: Colors.orange, width: 0.5),
+                                  ),
+                                  child: const Text(
+                                    "PREMIUM",
+                                    style: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.orange,
+                                    ),
+                                  ),
+                                ),
+                              ],
                               if (isLoading) ...[
                                 const SizedBox(height: 10),
                                 const LinearProgressIndicator(
