@@ -412,7 +412,7 @@ class _MeditationState extends State<Meditation> {
 
   void _navigateToExercisePage() {
     print('Navigate to exercise page');
-    // TODO: Implement navigation
+    // Implement navigation
   }
 
   @override

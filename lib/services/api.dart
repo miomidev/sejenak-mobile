@@ -54,8 +54,22 @@ static String communityDetailPost(int id) => "$community/posts/$id";
 static String communityUpdatePost(int id) => "$community/posts/$id"; 
 static String communityDeletePost(int id) => "$community/posts/$id";
 
-  // Konselor
-  static const String konselor = "$endpoint/konselor";
+  // Konselor & Counseling
+  static const String counselors = "$endpoint/counselors";
+  static const String sessionRequest = "$endpoint/sessions/request";
+  static const String mySessions = "$endpoint/sessions";
+
+  // Proposals
+  static const String proposals = "$endpoint/proposals";
+  static const String myProposal = "$endpoint/proposals/my";
+
+  // Counseling additional
+  static const String sessionPrice = '$endpoint/sessions/price';
+  
+  // Transactions
+  static const String tokenPackages = '$endpoint/transactions/token-packages';
+  static const String checkout = '$endpoint/transactions/checkout';
+  static const String myTransactions = "$endpoint/transactions";
 
   // Dashboard & Profile
   static const String dashboard = "$endpoint/dashboard";

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:selena/app/components/sejenak_text.dart';
-import 'package:selena/app/partial/chat/sejenak_main_chat.dart';
 import 'package:selena/app/partial/main/sejenak_header_page.dart';
 import 'package:selena/app/partial/main/sejenak_sidebar.dart';
 import 'package:selena/app/partial/sejenak_navbar.dart';
@@ -8,11 +7,125 @@ import 'package:selena/models/user_models/user_models.dart';
 import 'package:selena/root/sejenak_color.dart';
 import 'package:selena/screen/chat/chat_bot.dart';
 import 'package:selena/session/user_session.dart';
+import '../../services/counseling/counseling_service.dart';
 
-class Counseling extends StatelessWidget {
-  final UserModels? mySession;
+class Counseling extends StatefulWidget {
+  const Counseling({super.key});
 
-  Counseling({super.key}) : mySession = UserSession().user;
+  @override
+  State<Counseling> createState() => _CounselingState();
+}
+
+class _CounselingState extends State<Counseling> {
+  final UserModels? mySession = UserSession().user;
+  final CounselingService _counselingService = CounselingService();
+  
+  List<dynamic> _counselors = [];
+  bool _isLoadingCounselors = true;
+  int _sessionPrice = 500;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
+
+  Future<void> _fetchData() async {
+    setState(() => _isLoadingCounselors = true);
+    
+    // Fetch price and counselors in parallel
+    final priceFuture = _counselingService.getSessionPrice();
+    final counselorsFuture = _counselingService.getCounselors();
+    
+    final results = await Future.wait([priceFuture, counselorsFuture]);
+    
+    setState(() {
+      _sessionPrice = results[0] as int;
+      _counselors = results[1] as List<dynamic>;
+      _isLoadingCounselors = false;
+    });
+  }
+
+  void _showRequestSessionDialog(Map<String, dynamic> counselor) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          backgroundColor: SejenakColor.primary,
+          title: SejenakText(
+            text: "Request Sesi",
+            type: SejenakTextType.h5,
+            fontWeight: FontWeight.bold,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SejenakText(
+                text: "Minta sesi konseling dengan ${counselor['name']}?",
+                type: SejenakTextType.regular,
+              ),
+              SizedBox(height: 10),
+              SejenakText(
+                text: "Biaya: $_sessionPrice Token",
+                type: SejenakTextType.small,
+                color: SejenakColor.secondary,
+                fontWeight: FontWeight.bold,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: SejenakText(
+                text: "Batal",
+                type: SejenakTextType.regular,
+                color: SejenakColor.stroke,
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                Navigator.pop(context);
+                // Show loading
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) => Center(child: CircularProgressIndicator()),
+                );
+                
+                final result = await _counselingService.requestSession(counselor['id']);
+                Navigator.pop(context); // pop loading
+                
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(result['message']),
+                    backgroundColor: result['success'] ? Colors.green : Colors.red,
+                  ),
+                );
+                
+                if (result['requires_topup'] == true) {
+                  // Navigate to token purchase
+                  Navigator.pushNamed(context, '/token-purchase');
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: SejenakColor.secondary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              child: SejenakText(
+                text: "Lanjutkan",
+                type: SejenakTextType.regular,
+                color: SejenakColor.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -243,10 +356,10 @@ class Counseling extends StatelessWidget {
               border: Border.all(color: SejenakColor.stroke.withOpacity(0.2)),
             ),
             child: SejenakText(
-              text: "12 Online",
+              text: "${_counselors.length} Konselor",
               type: SejenakTextType.small,
               fontWeight: FontWeight.w500,
-              color: Colors.green,
+              color: SejenakColor.secondary,
             ),
           ),
         ],
@@ -255,46 +368,32 @@ class Counseling extends StatelessWidget {
   }
 
   Widget _buildCounselorsList(BuildContext context) {
-    // Dummy data for counselors
-    final counselors = [
-      {
-        'name': 'Dr. Sarah Wijaya, M.Psi',
-        'specialization': 'Psikolog Klinis',
-        'experience': '8 tahun',
-        'rating': '4.9',
-        'online': true,
-        'image': '',
-      },
-      {
-        'name': 'Budi Santoso, S.Psi',
-        'specialization': 'Konselor Remaja',
-        'experience': '5 tahun',
-        'rating': '4.8',
-        'online': true,
-        'image': '',
-      },
-      {
-        'name': 'Maya Pertiwi, M.Psi',
-        'specialization': 'Terapis Keluarga',
-        'experience': '10 tahun',
-        'rating': '4.9',
-        'online': false,
-        'image': '',
-      },
-      {
-        'name': 'Dr. Andi Pratama, Sp.KJ',
-        'specialization': 'Psikiater',
-        'experience': '12 tahun',
-        'rating': '5.0',
-        'online': true,
-        'image': '',
-      },
-    ];
+    if (_isLoadingCounselors) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    
+    if (_counselors.isEmpty) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: SejenakText(
+            text: "Belum ada konselor yang tersedia.",
+            type: SejenakTextType.regular,
+            color: SejenakColor.stroke,
+          ),
+        ),
+      );
+    }
 
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Column(
-        children: counselors.map((counselor) => 
+        children: _counselors.map((counselor) => 
           Container(
             margin: EdgeInsets.only(bottom: 8),
             decoration: BoxDecoration(
@@ -315,7 +414,7 @@ class Counseling extends StatelessWidget {
               child: InkWell(
                 borderRadius: BorderRadius.circular(20),
                 onTap: () {
-                  SejenakMainChat(id: counselors.indexOf(counselor) + 1).showChat(context);
+                  _showRequestSessionDialog(counselor);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -330,14 +429,18 @@ class Counseling extends StatelessWidget {
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: SejenakColor.light,
+                              image: counselor['avatar_url'] != null ? DecorationImage(
+                                image: NetworkImage(counselor['avatar_url']),
+                                fit: BoxFit.cover,
+                              ) : null,
                             ),
-                            child: Icon(
+                            child: counselor['avatar_url'] == null ? Icon(
                               Icons.person,
                               size: 30,
                               color: SejenakColor.stroke,
-                            ),
+                            ) : null,
                           ),
-                          if (counselor['online'] as bool)
+                          if (counselor['is_online'] == true)
                             Positioned(
                               bottom: 0,
                               right: 0,
@@ -363,12 +466,13 @@ class Counseling extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                SejenakText(
-                                  text: counselor['name'] as String,
-                                  type: SejenakTextType.regular,
-                                  fontWeight: FontWeight.bold,
+                                Expanded(
+                                  child: SejenakText(
+                                    text: counselor['name'] ?? '',
+                                    type: SejenakTextType.regular,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                                Spacer(),
                                 Row(
                                   children: [
                                     Icon(
@@ -378,7 +482,7 @@ class Counseling extends StatelessWidget {
                                     ),
                                     SizedBox(width: 4),
                                     SejenakText(
-                                      text: counselor['rating'] as String,
+                                      text: counselor['rating']?.toString() ?? '4.8',
                                       type: SejenakTextType.small,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -388,13 +492,13 @@ class Counseling extends StatelessWidget {
                             ),
                             SizedBox(height: 4),
                             SejenakText(
-                              text: counselor['specialization'] as String,
+                              text: counselor['specialization'] ?? 'Psikolog Klinis',
                               type: SejenakTextType.small,
                               color: SejenakColor.secondary,
                             ),
                             SizedBox(height: 4),
                             SejenakText(
-                              text: "Pengalaman ${counselor['experience'] as String}",
+                              text: "Pengalaman ${counselor['experience'] ?? '5 Tahun'}",
                               type: SejenakTextType.small,
                               color: SejenakColor.stroke,
                             ),
@@ -410,7 +514,7 @@ class Counseling extends StatelessWidget {
                           border: Border.all(color: SejenakColor.secondary),
                         ),
                         child: SejenakText(
-                          text: "Chat",
+                          text: "Minta Sesi",
                           type: SejenakTextType.small,
                           color: SejenakColor.secondary,
                           fontWeight: FontWeight.bold,
