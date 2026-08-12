@@ -8,7 +8,6 @@ import 'package:selena/root/sejenak_color.dart';
 import 'package:selena/session/user_session.dart';
 import 'package:selena/services/counseling/counseling_service.dart';
 import 'package:selena/services/api.dart';
-import 'package:dio/dio.dart';
 
 class ChatKonselorScreen extends StatefulWidget {
   final Map<String, dynamic>? sessionData;
@@ -474,7 +473,7 @@ class _ChatKonselorScreenState extends State<ChatKonselorScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   SejenakText(
-                    text: "Pilih waktu untuk sesi lanjutan dengan ${partnerName}.",
+                    text: "Pilih waktu untuk sesi lanjutan dengan $partnerName.",
                     type: SejenakTextType.regular,
                   ),
                   const SizedBox(height: 16),
