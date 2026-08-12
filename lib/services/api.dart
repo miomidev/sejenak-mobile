@@ -92,6 +92,11 @@ static String communityDeletePost(int id) => "$community/posts/$id";
   static const String meditationAudios = "$endpoint/meditation/audios";
   static const String chatBot = "$endpoint/chat-bot";
 
+  // Daily Tasks
+  static const String dailyTasks = "$endpoint/daily-tasks";
+  static const String generateDailyTasks = "$endpoint/daily-tasks/generate";
+  static String completeDailyTask(int id) => "$endpoint/daily-tasks/$id/complete";
+
   // Midtrans
   static const String midtransCallback = "$endpoint/midtrans/callback";
 

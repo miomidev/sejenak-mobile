@@ -27,6 +27,9 @@ class _ChatKonselorScreenState extends State<ChatKonselorScreen> {
   final ScrollController _scrollController = ScrollController();
   List<dynamic> _messages = [];
   Timer? _pollingTimer;
+  Map<String, dynamic>? _liveSession;
+
+  Map<String, dynamic>? get _currentSession => _liveSession ?? _currentSession;
 
   @override
   void initState() {
@@ -38,6 +41,7 @@ class _ChatKonselorScreenState extends State<ChatKonselorScreen> {
       // Polling for real-time feel since websocket requires deeper setup
       _pollingTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
         _fetchMessages(silent: true);
+        if (_currentSession != null) _updateSessionStatus();
       });
     }
   }
@@ -63,26 +67,43 @@ class _ChatKonselorScreenState extends State<ChatKonselorScreen> {
 
   int get partnerId {
     final myId = UserSession().user?.user?.id;
-    if (widget.sessionData!['user_id'] == myId) {
-      return widget.sessionData!['konselor_id'];
+    if (_currentSession!['user_id'] == myId) {
+      return _currentSession!['konselor_id'];
     }
-    return widget.sessionData!['user_id'];
+    return _currentSession!['user_id'];
   }
 
   String get partnerName {
     final myId = UserSession().user?.user?.id;
-    if (widget.sessionData!['user_id'] == myId) {
-      return widget.sessionData!['counselor']?['name'] ?? 'Konselor';
+    if (_currentSession!['user_id'] == myId) {
+      return _currentSession!['counselor']?['name'] ?? 'Konselor';
     }
-    return widget.sessionData!['user']?['name'] ?? 'Klien';
+    return _currentSession!['user']?['name'] ?? 'Klien';
   }
 
   String? get partnerAvatar {
     final myId = UserSession().user?.user?.id;
-    if (widget.sessionData!['user_id'] == myId) {
-      return widget.sessionData!['counselor']?['avatar'];
+    if (_currentSession!['user_id'] == myId) {
+      return _currentSession!['counselor']?['avatar'];
     }
-    return widget.sessionData!['user']?['avatar'];
+    return _currentSession!['user']?['avatar'];
+  }
+
+  Future<void> _updateSessionStatus() async {
+    try {
+      final sessions = await _counselingService.getMySessions();
+      if (mounted) {
+        final updated = sessions.firstWhere(
+          (s) => s['id'] == _currentSession!['id'], 
+          orElse: () => _currentSession
+        );
+        if (updated['status'] != _currentSession!['status']) {
+          setState(() {
+            _liveSession = updated;
+          });
+        }
+      }
+    } catch (e) {}
   }
 
   Future<void> _fetchMessages({bool silent = false}) async {
@@ -265,7 +286,7 @@ class _ChatKonselorScreenState extends State<ChatKonselorScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         actions: [
-          if (widget.sessionData?['status'] == 'ongoing')
+          if (_currentSession?['status'] == 'ongoing')
             IconButton(
               icon: const Icon(Icons.stop_circle_outlined, color: SejenakColor.error),
               tooltip: "Akhiri Sesi",
@@ -282,9 +303,12 @@ class _ChatKonselorScreenState extends State<ChatKonselorScreen> {
                   ),
                 );
                 if (confirm == true) {
-                  final success = await _counselingService.endSession(widget.sessionData!['id']);
+                  final success = await _counselingService.endSession(_currentSession!['id']);
                   if (success) {
-                    setState(() => widget.sessionData!['status'] = 'completed');
+                    setState(() {
+                      _liveSession = Map.from(_currentSession!);
+                      _liveSession!['status'] = 'completed';
+                    });
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sesi telah diakhiri.")));
                   }
                 }
@@ -318,9 +342,9 @@ class _ChatKonselorScreenState extends State<ChatKonselorScreen> {
   }
 
   Widget _buildBottomAction() {
-    final status = widget.sessionData?['status'];
+    final status = _currentSession?['status'];
     final myId = UserSession().user?.user?.id;
-    final isCounselor = widget.sessionData?['konselor_id'] == myId;
+    final isCounselor = _currentSession?['konselor_id'] == myId;
 
     if (status == 'completed' || status == 'closed') {
       return Container(
@@ -373,9 +397,12 @@ class _ChatKonselorScreenState extends State<ChatKonselorScreen> {
           ),
           child: ElevatedButton(
             onPressed: () async {
-              final success = await _counselingService.acceptSession(widget.sessionData!['id']);
+              final success = await _counselingService.acceptSession(_currentSession!['id']);
               if (success) {
-                setState(() => widget.sessionData!['status'] = 'ongoing');
+                setState(() {
+                  _liveSession = Map.from(_currentSession!);
+                  _liveSession!['status'] = 'ongoing';
+                });
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sesi dimulai!")));
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Gagal memulai sesi.")));

@@ -200,6 +200,12 @@ class _SettingsPageState extends State<SettingsPage> {
               onTap: _editProfile,
             ),
             _buildSettingItem(
+              icon: Icons.monetization_on_outlined,
+              title: "Token Saya",
+              subtitle: "${user?.user?.tokensBalance ?? 0} Token Tersedia - Beli Lagi",
+              onTap: () => Navigator.pushNamed(context, '/token-purchase'),
+            ),
+            _buildSettingItem(
               icon: Icons.email_outlined,
               title: "Email",
               subtitle: user?.user?.email ?? "Atur email",

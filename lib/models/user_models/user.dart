@@ -17,6 +17,7 @@ class User {
   final String? role;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final int? tokensBalance;
 
   const User({
     this.id,
@@ -35,6 +36,7 @@ class User {
     this.role,
     this.createdAt,
     this.updatedAt,
+    this.tokensBalance,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -58,6 +60,7 @@ class User {
         updatedAt: json['updated_at'] == null
             ? null
             : DateTime.parse(json['updated_at'] as String),
+        tokensBalance: json['tokens_balance'] as int? ?? 0,
       );
 
   Map<String, dynamic> toJson() => {
@@ -77,6 +80,7 @@ class User {
         'role': role,
         'created_at': createdAt?.toIso8601String(),
         'updated_at': updatedAt?.toIso8601String(),
+        'tokens_balance': tokensBalance,
       };
 
   User copyWith({
@@ -96,6 +100,7 @@ class User {
     String? role,
     DateTime? createdAt,
     DateTime? updatedAt,
+    int? tokensBalance,
   }) {
     return User(
       id: id ?? this.id,
@@ -114,6 +119,7 @@ class User {
       role: role ?? this.role,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      tokensBalance: tokensBalance ?? this.tokensBalance,
     );
   }
 
