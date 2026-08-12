@@ -293,6 +293,7 @@ class Dashboard extends StatelessWidget {
             const SizedBox(height: 12),
             GridView.count(
               crossAxisCount: 4,
+              childAspectRatio: 0.8,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               mainAxisSpacing: 16,
