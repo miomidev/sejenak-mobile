@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "681098074473-pmgema91eb6uqb2ej3d4k82u456oia16.apps.googleusercontent.com",
+          "client_id": "681098074473-csjc6jcn182vroce95p7rl1bjfakkgr6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sejenak.selena",
+            "certificate_hash": "0a1fd7d6422c20103029c7ea9a49ed4a5dc2b01b"
+          }
+        },
+        {
+          "client_id": "681098074473-g6k541fam1a7u1aldo5duq8maebdmjj2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "681098074473-pmgema91eb6uqb2ej3d4k82u456oia16.apps.googleusercontent.com",
+              "client_id": "681098074473-g6k541fam1a7u1aldo5duq8maebdmjj2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
