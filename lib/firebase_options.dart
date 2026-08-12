@@ -41,21 +41,21 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBTb-ADECijUix0LS_LqsdKHezQUtnWeDU',
-    appId: '1:482406091527:web:5e5ed1765619658e7a53a2',
-    messagingSenderId: '482406091527',
-    projectId: 'sejenak-b9227',
-    authDomain: 'sejenak-b9227.firebaseapp.com',
-    storageBucket: 'sejenak-b9227.firebasestorage.app',
-    measurementId: 'G-5ZTDMX84XE',
+    apiKey: 'AIzaSyCaIrFCLLvOpddbx92T9LEgDLCBd_rKX-s',
+    appId: '1:681098074473:web:b8aabc74db208f5722c5f8',
+    messagingSenderId: '681098074473',
+    projectId: 'sejenak-web',
+    authDomain: 'sejenak-web.firebaseapp.com',
+    storageBucket: 'sejenak-web.firebasestorage.app',
+    measurementId: 'G-3BF1ZW96MM',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBp30iVtCJottuDdWyTgDKsmYsxahPlXa0',
-    appId: '1:550689254127:android:dff6a5a6e4858d713ec91a',
-    messagingSenderId: '550689254127',
-    projectId: 'sejenak-7bf82',
-    storageBucket: 'sejenak-7bf82.firebasestorage.app',
+    apiKey: 'AIzaSyAMZpEiooNRHjDlzofdwec1W2BWD-4pkKo',
+    appId: '1:681098074473:android:a63f0eccba4c4cc622c5f8',
+    messagingSenderId: '681098074473',
+    projectId: 'sejenak-web',
+    storageBucket: 'sejenak-web.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
