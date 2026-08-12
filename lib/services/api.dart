@@ -130,12 +130,22 @@ class DioHttpClient implements HttpClient {
         print('Sending ${options.method} request to ${options.uri}');
         
         if (options.data is FormData) {
-          print('FormData with fields: ${options.data.fields}');
-          if (options.data.files.isNotEmpty) {
-            print('Files: ${options.data.files.map((f) => f.key).toList()}');
+          print('FormData with fields: ${(options.data as FormData).fields}');
+          if ((options.data as FormData).files.isNotEmpty) {
+            print('Files: ${(options.data as FormData).files.map((f) => f.key).toList()}');
           }
         } else {
-          print('Data: ${options.data}');
+          var logData = options.data;
+          if (logData is Map) {
+            logData = Map.from(logData);
+            if (logData.containsKey('password')) {
+              logData['password'] = '***';
+            }
+            if (logData.containsKey('password_confirmation')) {
+              logData['password_confirmation'] = '***';
+            }
+          }
+          print('Data: $logData');
         }
         return handler.next(options);
       },

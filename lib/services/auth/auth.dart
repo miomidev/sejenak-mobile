@@ -29,8 +29,6 @@ class SejenakApiAuthService implements SejenakAuth, AuthWithRegister {
 
   @override
   Future<void> login(BuildContext context) async {
-    print(
-        "name: ${formController.name.text} password ${formController.password.text}");
     try {
       final response = await DioHttpClient.getInstance().post(
         API.login,
