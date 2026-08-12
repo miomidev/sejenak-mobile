@@ -5,8 +5,8 @@ import 'package:selena/session/user_session.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class API {
-  static const String endpoint = "https://sejenak.app/api";
-  static const String endpointImage = "https://sejenak.app/";
+  static const String endpoint = "http://127.0.0.1:8000/api";
+  static const String endpointImage = "http://127.0.0.1:8000/";
 
 
   // Authentication
@@ -58,6 +58,14 @@ static String communityDeletePost(int id) => "$community/posts/$id";
   static const String counselors = "$endpoint/counselors";
   static const String sessionRequest = "$endpoint/sessions/request";
   static const String mySessions = "$endpoint/sessions";
+  static String sessionAccept(int id) => "$endpoint/sessions/$id/accept";
+  static String sessionEnd(int id) => "$endpoint/sessions/$id/end";
+
+  // Chat / Messages
+  static const String chatUsers = "$endpoint/chat/users/list";
+  static String chatMessages(int id) => "$endpoint/chat/messages/$id";
+  static const String chatSend = "$endpoint/chat/send";
+  static String chatMarkRead(int id) => "$endpoint/chat/mark-read/$id";
 
   // Proposals
   static const String proposals = "$endpoint/proposals";

@@ -80,15 +80,23 @@ class _TokenPurchaseScreenState extends State<TokenPurchaseScreen> {
           text: 'Beli Token',
           type: SejenakTextType.h5,
           fontWeight: FontWeight.bold,
-          color: SejenakColor.white,
+          color: SejenakColor.dark,
         ),
         backgroundColor: SejenakColor.light,
         elevation: 0,
-        iconTheme: IconThemeData(color: SejenakColor.white),
+        iconTheme: IconThemeData(color: SejenakColor.dark),
       ),
       body: _isLoading 
-        ? Center(child: CircularProgressIndicator())
-        : ListView.builder(
+        ? Center(child: CircularProgressIndicator(color: SejenakColor.secondary))
+        : _packages.isEmpty 
+          ? Center(
+              child: SejenakText(
+                text: "Belum ada paket token tersedia.",
+                type: SejenakTextType.regular,
+                color: SejenakColor.stroke,
+              ),
+            )
+          : ListView.builder(
             padding: EdgeInsets.all(16),
             itemCount: _packages.length,
             itemBuilder: (context, index) {

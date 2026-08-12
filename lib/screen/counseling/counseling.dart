@@ -47,81 +47,146 @@ class _CounselingState extends State<Counseling> {
   }
 
   void _showRequestSessionDialog(Map<String, dynamic> counselor) {
+    DateTime? selectedDate;
+    TimeOfDay? selectedTime;
+
     showDialog(
       context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          backgroundColor: SejenakColor.primary,
-          title: SejenakText(
-            text: "Request Sesi",
-            type: SejenakTextType.h5,
-            fontWeight: FontWeight.bold,
-          ),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SejenakText(
-                text: "Minta sesi konseling dengan ${counselor['name']}?",
-                type: SejenakTextType.regular,
-              ),
-              SizedBox(height: 10),
-              SejenakText(
-                text: "Biaya: $_sessionPrice Token",
-                type: SejenakTextType.small,
-                color: SejenakColor.secondary,
+      builder: (BuildContext dialogContext) {
+        return StatefulBuilder(
+          builder: (builderContext, setState) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              backgroundColor: SejenakColor.primary,
+              title: SejenakText(
+                text: "Ajukan Jadwal Sesi",
+                type: SejenakTextType.h5,
                 fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context),
-              child: SejenakText(
-                text: "Batal",
-                type: SejenakTextType.regular,
-                color: SejenakColor.stroke,
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                Navigator.pop(context);
-                // Show loading
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (_) => Center(child: CircularProgressIndicator()),
-                );
-                
-                final result = await _counselingService.requestSession(counselor['id']);
-                Navigator.pop(context); // pop loading
-                
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(result['message']),
-                    backgroundColor: result['success'] ? Colors.green : Colors.red,
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SejenakText(
+                    text: "Pilih waktu untuk konseling dengan ${counselor['name']}.",
+                    type: SejenakTextType.regular,
                   ),
-                );
-                
-                if (result['requires_topup'] == true) {
-                  // Navigate to token purchase
-                  Navigator.pushNamed(context, '/token-purchase');
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: SejenakColor.secondary,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  const SizedBox(height: 16),
+                  ElevatedButton.icon(
+                    onPressed: () async {
+                      final date = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now().add(const Duration(days: 1)),
+                        firstDate: DateTime.now(),
+                        lastDate: DateTime.now().add(const Duration(days: 30)),
+                      );
+                      if (date != null) {
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.now(),
+                        );
+                        if (time != null) {
+                          setState(() {
+                            selectedDate = date;
+                            selectedTime = time;
+                          });
+                        }
+                      }
+                    },
+                    icon: const Icon(Icons.calendar_month, color: SejenakColor.dark),
+                    label: SejenakText(
+                      text: selectedDate != null && selectedTime != null
+                          ? "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year} ${selectedTime!.format(context)}"
+                          : "Pilih Tanggal & Waktu",
+                      type: SejenakTextType.small,
+                      color: SejenakColor.dark,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: SejenakColor.white,
+                      side: const BorderSide(color: SejenakColor.dark, width: 2),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  SejenakText(
+                    text: "Biaya: $_sessionPrice Token",
+                    type: SejenakTextType.small,
+                    color: SejenakColor.secondary,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(dialogContext),
+                  child: SejenakText(
+                    text: "Batal",
+                    type: SejenakTextType.regular,
+                    color: SejenakColor.stroke,
+                  ),
                 ),
-              ),
-              child: SejenakText(
-                text: "Lanjutkan",
-                type: SejenakTextType.regular,
-                color: SejenakColor.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+                ElevatedButton(
+                  onPressed: () async {
+                    if (selectedDate == null || selectedTime == null) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Silakan pilih tanggal dan waktu sesi!")),
+                      );
+                      return;
+                    }
+
+                    Navigator.pop(dialogContext);
+                    // Show loading
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (_) => const Center(child: CircularProgressIndicator()),
+                    );
+                    
+                    final scheduledAt = DateTime(
+                      selectedDate!.year,
+                      selectedDate!.month,
+                      selectedDate!.day,
+                      selectedTime!.hour,
+                      selectedTime!.minute,
+                    ).toIso8601String();
+
+                    final result = await _counselingService.requestSession(
+                      counselor['id'], 
+                      scheduledAt: scheduledAt
+                    );
+                    if (!mounted) return;
+                    Navigator.pop(context); // pop loading
+                    
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(result['message']),
+                        backgroundColor: result['success'] ? Colors.green : Colors.red,
+                      ),
+                    );
+                    
+                    if (result['requires_topup'] == true) {
+                      Navigator.pushNamed(context, '/token-purchase');
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: SejenakColor.secondary,
+                    side: const BorderSide(color: SejenakColor.dark, width: 2),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  child: SejenakText(
+                    text: "Ajukan",
+                    type: SejenakTextType.regular,
+                    color: SejenakColor.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            );
+          }
         );
       },
     );
