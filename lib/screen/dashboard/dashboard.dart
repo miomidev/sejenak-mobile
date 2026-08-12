@@ -499,14 +499,10 @@ class Dashboard extends StatelessWidget {
                         Border.all(color: SejenakColor.stroke.withOpacity(0.3)),
                   ),
                   child: Center(
-                    child: SvgPicture.asset(
-                      'assets/svg/check.svg',
-                      width: 20,
-                      height: 20,
-                      colorFilter: ColorFilter.mode(
-                        SejenakColor.stroke,
-                        BlendMode.srcIn,
-                      ),
+                    child: Icon(
+                      Icons.check_rounded,
+                      size: 20,
+                      color: SejenakColor.stroke,
                     ),
                   ),
                 ),
