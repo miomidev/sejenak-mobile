@@ -5,8 +5,11 @@ import 'package:selena/session/user_session.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class API {
-  static const String endpoint = "https://sejenak.app/api";
-  static const String endpointImage = "https://sejenak.app/";
+  // Use String.fromEnvironment to allow overriding via --dart-define
+  static const String _baseUrl = String.fromEnvironment('BASE_URL', defaultValue: 'https://sejenak.miomidev.com');
+  
+  static const String endpoint = "$_baseUrl/api";
+  static const String endpointImage = "$_baseUrl/";
 
 
   // Authentication

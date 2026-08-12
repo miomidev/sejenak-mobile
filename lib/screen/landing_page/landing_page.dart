@@ -46,12 +46,13 @@ _loadUserSession();
       body: isLoading
           ? const Center(child: SejenakLoading())
           : Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 64),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 64, vertical: 32),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                     const SizedBox(height: 64),
                     SvgPicture.asset(
                       'assets/svg/logo_mini.svg',
@@ -120,6 +121,7 @@ _loadUserSession();
                 ),
               ),
             ),
+          ),
     );
   }
 }
