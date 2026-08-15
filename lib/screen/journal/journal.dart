@@ -50,7 +50,7 @@ class _JournalState extends State<Journal> {
       });
     }
 
-    final fetched = journalService.getAllLocalAndPendingJournal();
+    final fetched = journalService.getAllJournal();
 
     fetched.then((fetchedJournals) async {
       setState(() {
@@ -154,35 +154,35 @@ class _JournalState extends State<Journal> {
   Widget _buildEmptyState(BuildContext context) {
     final String? profileImage = user?.user?.avatar;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SejenakHeaderPage(
-          text: "Journal",
-          profile: profileImage,
-        ),
-
-        // Calendar Section dengan container
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
-            color: SejenakColor.primary,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(width: 1.0, color: Colors.grey[900]!),
-            boxShadow: const [
-              BoxShadow(
-                color: SejenakColor.black,
-                spreadRadius: 0.4,
-                blurRadius: 0,
-                offset: Offset(0.3, 4),
-              ),
-            ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SejenakHeaderPage(
+            text: "Journal",
+            profile: profileImage,
           ),
-          child: SejenakCalendar(),
-        ),
 
-        Expanded(
-          child: Center(
+          // Calendar Section dengan container
+          Container(
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: SejenakColor.primary,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(width: 1.0, color: Colors.grey[900]!),
+              boxShadow: const [
+                BoxShadow(
+                  color: SejenakColor.black,
+                  spreadRadius: 0.4,
+                  blurRadius: 0,
+                  offset: Offset(0.3, 4),
+                ),
+              ],
+            ),
+            child: SejenakCalendar(),
+          ),
+
+          Center(
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 20),
               padding: EdgeInsets.all(24),
@@ -248,11 +248,12 @@ class _JournalState extends State<Journal> {
                     ),
                   ),
                 ],
-              ),
-            ),
-          ),
-        ),
-      ],
+              ), // Closes Column
+            ), // Closes Container
+          ), // Closes Center
+          SizedBox(height: 20), // Bottom padding
+        ],
+      ),
     );
   }
 
