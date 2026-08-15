@@ -29,7 +29,7 @@ class _ChatKonselorScreenState extends State<ChatKonselorScreen> {
   Timer? _pollingTimer;
   Map<String, dynamic>? _liveSession;
 
-  Map<String, dynamic>? get _currentSession => _liveSession ?? _currentSession;
+  Map<String, dynamic>? get _currentSession => _liveSession ?? widget.sessionData;
 
   @override
   void initState() {
