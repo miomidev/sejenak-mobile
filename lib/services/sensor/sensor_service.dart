@@ -108,9 +108,9 @@ class SensorService {
 
   void _handleScreenEvent(ScreenStateEvent event) {
     final now = DateTime.now();
-    if (event == ScreenStateEvent.SCREEN_ON) {
+    if (event == ScreenStateEvent.screenOn) {
       _currentScreenOnHours += 0.0167;
-    } else if (event == ScreenStateEvent.SCREEN_OFF) {
+    } else if (event == ScreenStateEvent.screenOff) {
       if (now.hour >= 22 || now.hour < 5) {
         _currentLateNightMinutes += 1;
       }

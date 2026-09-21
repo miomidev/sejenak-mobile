@@ -15,7 +15,7 @@ dependencies:
   flutter_svg: ^2.0.9
   url_launcher: ^6.2.1
   path_drawing: ^1.0.1
-  flutter_quill: ^11.2.0
+  flutter_quill: ^11.5.1
   flutter_html: ^3.0.0
   table_calendar: ^3.1.3
   google_sign_in: ^6.2.1
@@ -33,7 +33,7 @@ dependencies:
   # Sensor packages
   health: ^12.0.0
   pedometer: ^4.0.1
-  screen_state: ^3.0.1
+  screen_state: ^5.0.0
   activity_recognition_flutter: ^6.0.0
   # Local storage
   hive: ^2.2.3

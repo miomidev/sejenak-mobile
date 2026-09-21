@@ -5,8 +5,8 @@ import 'package:selena/session/user_session.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class API {
-  static const String endpoint = "https://sejenak.app/api";
-  static const String endpointImage = "https://sejenak.app/";
+  static const String endpoint = "http://172.31.130.149:8000/api";
+  static const String endpointImage = "http://172.31.130.149:8000/";
 
 
   // Authentication
