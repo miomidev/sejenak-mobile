@@ -5,8 +5,11 @@ import 'package:selena/session/user_session.dart';
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class API {
-  static const String endpoint = "http://172.31.130.149:8000/api";
-  static const String endpointImage = "http://172.31.130.149:8000/";
+  // Use String.fromEnvironment to allow overriding via --dart-define
+  static const String _baseUrl = String.fromEnvironment('BASE_URL', defaultValue: 'https://sejenak.miomidev.com');
+  
+  static const String endpoint = "$_baseUrl/api";
+  static const String endpointImage = "$_baseUrl/";
 
 
   // Authentication
@@ -54,8 +57,30 @@ static String communityDetailPost(int id) => "$community/posts/$id";
 static String communityUpdatePost(int id) => "$community/posts/$id"; 
 static String communityDeletePost(int id) => "$community/posts/$id";
 
-  // Konselor
-  static const String konselor = "$endpoint/konselor";
+  // Konselor & Counseling
+  static const String counselors = "$endpoint/counselors";
+  static const String sessionRequest = "$endpoint/sessions/request";
+  static const String mySessions = "$endpoint/sessions";
+  static String sessionAccept(int id) => "$endpoint/sessions/$id/accept";
+  static String sessionEnd(int id) => "$endpoint/sessions/$id/end";
+
+  // Chat / Messages
+  static const String chatUsers = "$endpoint/chat/users/list";
+  static String chatMessages(int id) => "$endpoint/chat/messages/$id";
+  static const String chatSend = "$endpoint/chat/send";
+  static String chatMarkRead(int id) => "$endpoint/chat/mark-read/$id";
+
+  // Proposals
+  static const String proposals = "$endpoint/proposals";
+  static const String myProposal = "$endpoint/proposals/my";
+
+  // Counseling additional
+  static const String sessionPrice = '$endpoint/sessions/price';
+  
+  // Transactions
+  static const String tokenPackages = '$endpoint/transactions/token-packages';
+  static const String checkout = '$endpoint/transactions/checkout';
+  static const String myTransactions = "$endpoint/transactions";
 
   // Dashboard & Profile
   static const String dashboard = "$endpoint/dashboard";
@@ -66,6 +91,11 @@ static String communityDeletePost(int id) => "$community/posts/$id";
   static const String meditationDaily = "$endpoint/meditation/daily";
   static const String meditationAudios = "$endpoint/meditation/audios";
   static const String chatBot = "$endpoint/chat-bot";
+
+  // Daily Tasks
+  static const String dailyTasks = "$endpoint/daily-tasks";
+  static const String generateDailyTasks = "$endpoint/daily-tasks/generate";
+  static String completeDailyTask(int id) => "$endpoint/daily-tasks/$id/complete";
 
   // Midtrans
   static const String midtransCallback = "$endpoint/midtrans/callback";
@@ -113,12 +143,22 @@ class DioHttpClient implements HttpClient {
         print('Sending ${options.method} request to ${options.uri}');
         
         if (options.data is FormData) {
-          print('FormData with fields: ${options.data.fields}');
-          if (options.data.files.isNotEmpty) {
-            print('Files: ${options.data.files.map((f) => f.key).toList()}');
+          print('FormData with fields: ${(options.data as FormData).fields}');
+          if ((options.data as FormData).files.isNotEmpty) {
+            print('Files: ${(options.data as FormData).files.map((f) => f.key).toList()}');
           }
         } else {
-          print('Data: ${options.data}');
+          var logData = options.data;
+          if (logData is Map) {
+            logData = Map.from(logData);
+            if (logData.containsKey('password')) {
+              logData['password'] = '***';
+            }
+            if (logData.containsKey('password_confirmation')) {
+              logData['password_confirmation'] = '***';
+            }
+          }
+          print('Data: $logData');
         }
         return handler.next(options);
       },

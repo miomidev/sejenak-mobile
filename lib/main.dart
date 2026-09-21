@@ -21,9 +21,11 @@ void main() async {
   
   await Hive.initFlutter();
   
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 
   await Workmanager().initialize(
     callbackDispatcher,

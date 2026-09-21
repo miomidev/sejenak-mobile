@@ -62,13 +62,18 @@ class SensorService {
   Stream<SensorData> get sensorStream => _sensorStreamController.stream;
 
   Future<bool> requestPermissions() async {
-    final healthStatus = await _health.requestAuthorization([
-      HealthDataType.SLEEP_ASLEEP,
-      HealthDataType.SLEEP_DEEP,
-      HealthDataType.STEPS,
-      HealthDataType.EXERCISE_TIME,
-    ]);
-    return healthStatus;
+    try {
+      final healthStatus = await _health.requestAuthorization([
+        HealthDataType.SLEEP_ASLEEP,
+        HealthDataType.SLEEP_DEEP,
+        HealthDataType.STEPS,
+        HealthDataType.EXERCISE_TIME,
+      ]);
+      return healthStatus;
+    } catch (e) {
+      print('Failed to request health permissions: $e');
+      return false;
+    }
   }
 
   Future<void> startListening() async {

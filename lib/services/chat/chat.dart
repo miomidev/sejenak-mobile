@@ -6,7 +6,7 @@ class ChatServices {
   late List<User> _konselor;
   Future<List<User>> getAllKonselor() async {
     try {
-      final response = await DioHttpClient.getInstance().get(API.konselor);
+      final response = await DioHttpClient.getInstance().get(API.counselors);
       print("✅ RESPONSE RAW JSON:");
       print(response.data);
 

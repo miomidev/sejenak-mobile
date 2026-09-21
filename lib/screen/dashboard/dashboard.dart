@@ -10,6 +10,7 @@ import 'package:selena/app/partial/main/sejenak_error.dart';
 import 'package:selena/app/partial/main/sejenak_header_page.dart';
 import 'package:selena/app/partial/main/sejenak_sidebar.dart';
 import 'package:selena/app/partial/sejenak_navbar.dart';
+import 'package:selena/app/partial/main/sejenak_daily_challenge.dart';
 import 'package:selena/models/post_models/post_models.dart';
 import 'package:selena/models/user_models/user_models.dart';
 import 'package:selena/root/sejenak_color.dart';
@@ -63,8 +64,8 @@ class Dashboard extends StatelessWidget {
           ),
 
           // Daily Challenge
-          SliverToBoxAdapter(
-            child: _buildDailyChallenge(),
+          const SliverToBoxAdapter(
+            child: DailyChallengeCard(),
           ),
 
           // Recent Posts Section
@@ -293,6 +294,7 @@ class Dashboard extends StatelessWidget {
             const SizedBox(height: 12),
             GridView.count(
               crossAxisCount: 4,
+              childAspectRatio: 0.8,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               mainAxisSpacing: 16,
@@ -417,105 +419,6 @@ class Dashboard extends StatelessWidget {
     );
   }
 
-  Widget _buildDailyChallenge() {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: SejenakColor.primary,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(width: 1.0, color: Colors.grey[900]!),
-        boxShadow: const [
-          BoxShadow(
-            color: SejenakColor.black,
-            spreadRadius: 0.4,
-            blurRadius: 0,
-            offset: Offset(0.3, 4),
-          ),
-        ],
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SejenakText(
-                  text: "Daily Challenge",
-                  type: SejenakTextType.h5,
-                  fontWeight: FontWeight.bold,
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                  decoration: BoxDecoration(
-                    color: SejenakColor.secondary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: SejenakColor.secondary),
-                  ),
-                  child: SejenakText(
-                    text: "Hari 7",
-                    type: SejenakTextType.small,
-                    fontWeight: FontWeight.bold,
-                    color: SejenakColor.secondary,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 12),
-            SejenakText(
-              text: "Tuliskan 3 hal yang kamu syukuri hari ini",
-              type: SejenakTextType.regular,
-            ),
-            SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: SejenakColor.secondary,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: SejenakText(
-                        text: "Lakukan Challenge",
-                        type: SejenakTextType.regular,
-                        color: SejenakColor.primary,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 8),
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: SejenakColor.light,
-                    borderRadius: BorderRadius.circular(10),
-                    border:
-                        Border.all(color: SejenakColor.stroke.withOpacity(0.3)),
-                  ),
-                  child: Center(
-                    child: SvgPicture.asset(
-                      'assets/svg/check.svg',
-                      width: 20,
-                      height: 20,
-                      colorFilter: ColorFilter.mode(
-                        SejenakColor.stroke,
-                        BlendMode.srcIn,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _buildRecentPostsList() {
     return FutureBuilder<List<PostModels>>(

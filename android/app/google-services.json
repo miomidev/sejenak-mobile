@@ -1,57 +1,41 @@
 {
   "project_info": {
-    "project_number": "550689254127",
-    "project_id": "sejenak-7bf82",
-    "storage_bucket": "sejenak-7bf82.firebasestorage.app"
+    "project_number": "681098074473",
+    "project_id": "sejenak-web",
+    "storage_bucket": "sejenak-web.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:550689254127:android:dff6a5a6e4858d713ec91a",
+        "mobilesdk_app_id": "1:681098074473:android:a63f0eccba4c4cc622c5f8",
         "android_client_info": {
           "package_name": "com.sejenak.selena"
         }
       },
       "oauth_client": [
         {
-          "client_id": "550689254127-gc6h4rmup85pm5s8r7ub3u7dd820o6tr.apps.googleusercontent.com",
+          "client_id": "681098074473-csjc6jcn182vroce95p7rl1bjfakkgr6.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.sejenak.selena",
-            "certificate_hash": "6b5ecc61790fd867dda4ea2c8386fd7ca355fc4e"
+            "certificate_hash": "0a1fd7d6422c20103029c7ea9a49ed4a5dc2b01b"
           }
         },
         {
-          "client_id": "550689254127-mt8fvk5hohjrradridrgru8tq6r1p324.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sejenak.selena",
-            "certificate_hash": "7ba71aafdd704357687ca2b84d095fb5890bc2ec"
-          }
-        },
-        {
-          "client_id": "550689254127-qu78reofo9vsd6lobj2lv9p3tc2gt5bc.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.sejenak.selena",
-            "certificate_hash": "6b5ecc61790fd867dda4ea2c8386fd7ca355fc44"
-          }
-        },
-        {
-          "client_id": "550689254127-ja7pf95dlkjqd6v4aiv745l20ab689d5.apps.googleusercontent.com",
+          "client_id": "681098074473-g6k541fam1a7u1aldo5duq8maebdmjj2.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBp30iVtCJottuDdWyTgDKsmYsxahPlXa0"
+          "current_key": "AIzaSyAMZpEiooNRHjDlzofdwec1W2BWD-4pkKo"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "550689254127-ja7pf95dlkjqd6v4aiv745l20ab689d5.apps.googleusercontent.com",
+              "client_id": "681098074473-g6k541fam1a7u1aldo5duq8maebdmjj2.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

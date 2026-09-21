@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:selena/models/user_models/user.dart' as models;
@@ -28,8 +29,6 @@ class SejenakApiAuthService implements SejenakAuth, AuthWithRegister {
 
   @override
   Future<void> login(BuildContext context) async {
-    print(
-        "name: ${formController.name.text} password ${formController.password.text}");
     try {
       final response = await DioHttpClient.getInstance().post(
         API.login,
@@ -197,10 +196,8 @@ class GoogleAuthService implements SejenakAuth {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn(
       scopes: ['email', 'profile', 'openid'],
-      serverClientId:
-          '550689254127-ja7pf95dlkjqd6v4aiv745l20ab689d5.apps.googleusercontent.com',
-      clientId:
-          '550689254127-mt8fvk5hohjrradridrgru8tq6r1p324.apps.googleusercontent.com');
+      serverClientId: kIsWeb ? null : '681098074473-pmgema91eb6uqb2ej3d4k82u456oia16.apps.googleusercontent.com',
+      clientId: kIsWeb ? '681098074473-pmgema91eb6uqb2ej3d4k82u456oia16.apps.googleusercontent.com' : null);
   @override
   Future<void> login(BuildContext context) async {
     try {
